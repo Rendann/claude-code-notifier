@@ -1,37 +1,93 @@
 # Claude Code Enhanced Notification System
-<img width="351" alt="image" src="https://github.com/user-attachments/assets/c5e98d8d-75b1-4ece-80e7-f9a259cdc9dd" />
-<img width="351" alt="image" src="https://github.com/user-attachments/assets/5073f30d-5817-47b4-9585-8982bd518edf" />
-<img width="351" alt="image" src="https://github.com/user-attachments/assets/292c8c08-186f-432b-9c19-53b9e784d8dd" />
 
+<div align="center">
 
-Smart, click-to-focus notification system for Claude Code that delivers context-aware notifications with seamless app switching functionality.
+**Smart, click-to-focus notifications that transform Claude Code into a seamlessly integrated development tool**
 
-## Overview
+[![macOS](https://img.shields.io/badge/macOS-000000?style=flat&logo=apple&logoColor=white)](https://www.apple.com/macos/)
+[![Terminal](https://img.shields.io/badge/Terminal-4D4D4D?style=flat&logo=gnometerminal&logoColor=white)](https://support.apple.com/guide/terminal/)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-FF6B35?style=flat)](https://docs.anthropic.com/en/docs/claude-code)
 
-This enhanced notification system transforms Claude Code into a fully integrated development tool using the [hooks feature](https://docs.anthropic.com/en/docs/claude-code/hooks). The system intelligently detects your workflow context and delivers beautiful, actionable notifications that you can click to instantly return to your work.
+![Demo Notifications](https://github.com/user-attachments/assets/c5e98d8d-75b1-4ece-80e7-f9a259cdc9dd)
+
+*Beautiful, context-aware notifications with click-to-focus functionality*
+
+</div>
 
 ## ✨ Features
 
-- **🎯 Click-to-Focus**: Click any notification to instantly activate the originating application
-- **🎨 Enhanced UI**: Beautiful notifications with proper titles, subtitles, and formatting  
-- **⚡ Improved Reliability**: Uses `terminal-notifier` for consistent, professional notifications
-- **🔧 Better Debugging**: Comprehensive logging with detailed command output tracking
-- **🚫 DnD Bypass**: Important notifications bypass Do Not Disturb mode
-- **📱 Unique Grouping**: Each notification is properly grouped without replacement issues
+- 🎯 **Click-to-Focus**: Click any notification to instantly return to your IDE or terminal
+- 🧠 **Context-Aware**: Shows project name and originating application
+- 👀 **Focus-Smart**: Only notifies when you've switched away from your work
+- 🎨 **Beautiful UI**: Professional notifications with titles, subtitles, and sounds
+- ⚡ **Multi-App Support**: Works with 10+ popular development applications
+- 🔧 **Easy Setup**: One-command installation with automatic configuration
 
-## Setup
+## 🚀 Quick Setup
 
-### 1. Install Scripts
+### Option 1: Clone and Install (Recommended)
+
 ```bash
-# Create scripts directory
-mkdir -p ~/scripts
+# Clone the repository
+git clone https://github.com/naveenb1/claude-code-notifications.git
 
-# Make them executable
-chmod +x ~/scripts/*.sh
+# Run the installer (it will automatically setup in ~/.claude-notifications)
+cd claude-code-notifications
+./install.sh
 ```
 
-### 2. Configure Claude Code Hooks
-Add this configuration to your `~/.claude/settings.json`:
+### Option 2: Custom Installation Directory
+
+```bash
+# Clone the repository
+git clone https://github.com/naveenb1/claude-code-notifications.git
+cd claude-code-notifications
+
+# Install to custom directory
+CLAUDE_NOTIFICATIONS_DIR="~/my-custom-path" ./install.sh
+```
+
+### Option 3: Direct Download
+
+```bash
+# Create temporary directory
+mkdir -p /tmp/claude-notifications && cd /tmp/claude-notifications
+
+# Download the scripts (replace with actual URLs)
+curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/config.sh
+curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/common.sh
+curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/notify-completion.sh
+curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/notify-handler.sh
+curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/install.sh
+
+# Run the installer
+./install.sh
+```
+
+That's it! 🎉 The installer will:
+- Install dependencies (`jq` and `terminal-notifier`)
+- Copy scripts to `~/.claude-notifications` (or your custom directory)
+- Configure Claude Code hooks automatically
+- Test notification permissions
+- Set up everything for immediate use
+
+**Default Installation Location**: `~/.claude-notifications`  
+**Custom Installation**: Set `CLAUDE_NOTIFICATIONS_DIR` environment variable
+
+### ✅ Verify Installation
+
+Test that everything is working correctly:
+
+```bash
+# Run the system verification script
+~/.claude-notifications/test-system.sh
+```
+
+This will check all dependencies, test the notification system, and verify the installation.
+
+## 🔧 Manual Configuration
+
+If you prefer manual setup, add this to your `~/.claude/settings.json`:
 
 ```json
 {
@@ -42,7 +98,7 @@ Add this configuration to your `~/.claude/settings.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "~/scripts/notify-handler.sh"
+            "command": "~/.claude-notifications/notify-handler.sh"
           }
         ]
       }
@@ -53,7 +109,7 @@ Add this configuration to your `~/.claude/settings.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "~/scripts/notify-completion.sh"
+            "command": "~/.claude-notifications/notify-completion.sh"
           }
         ]
       }
@@ -62,87 +118,140 @@ Add this configuration to your `~/.claude/settings.json`:
 }
 ```
 
-### 3. Install Dependencies
+## 🏗️ Architecture
+
+### Core Scripts
+
+- **`config.sh`** - Configuration and path management for flexible installation
+- **`common.sh`** - Shared utilities and functions used by all scripts
+- **`notify-completion.sh`** - Handles task completion notifications  
+- **`notify-handler.sh`** - Handles explicit notifications (permissions, etc.)
+- **`install.sh`** - Automated setup and configuration
+
+### How It Works
+
+1. **Process Detection**: Walks up the process tree to identify the originating application
+2. **Focus Monitoring**: Uses AppleScript to detect the currently focused app
+3. **Smart Logic**: Only sends notifications when you've switched away from your work
+4. **Enhanced Delivery**: Uses `terminal-notifier` for professional notifications
+5. **Click Handling**: Bundle IDs enable click-to-focus functionality
+
+## 📱 Supported Applications
+
+| Category | Applications |
+|----------|-------------|
+| **IDEs** | IntelliJ IDEA, Cursor, VS Code, WebStorm, PHPStorm, PyCharm, Sublime Text |
+| **Terminals** | Terminal, iTerm2, Ghostty, Alacritty |
+| **Others** | Any application (basic support) |
+
+## 🔍 Debugging
+
+View real-time logs to troubleshoot any issues:
+
 ```bash
-# Ensure jq is installed for JSON parsing
+tail -f ~/.claude-notifications/debug.log
+```
+
+The logs show detailed information about:
+- Hook triggers and JSON input
+- App detection and focus analysis  
+- Notification commands and outputs
+- Success/skip decisions
+
+## ⚙️ Customization
+
+### Adding New Applications
+
+1. **Add Process Detection**: Edit `~/.claude-notifications/common.sh` in the `detect_originating_app()` function
+2. **Add Bundle ID**: Edit `~/.claude-notifications/common.sh` in the `get_bundle_id()` function  
+3. **Test**: Verify with `terminal-notifier -activate "your.bundle.id"`
+
+### Customizing Notifications
+
+Edit the notification functions in `common.sh`:
+- **Sounds**: Change `"Hero"` to other macOS sounds (`"Glass"`, `"Ping"`, `"Pop"`, etc.)
+- **Timing**: Modify the focus detection logic
+- **Content**: Customize message formatting and context
+
+### Example: Adding Zed Editor
+
+```bash
+# In common.sh, add to detect_originating_app():
+*"zed"*) echo "zed"; return ;;
+
+# Add to get_bundle_id():  
+"zed") echo "dev.zed.Zed" ;;
+```
+
+## 🎨 Notification Types
+
+### Completion Notifications
+- **Trigger**: When Claude Code finishes a conversation
+- **Content**: "Claude has finished running in [project]"
+- **Action**: Click to return to your IDE/terminal
+
+### Handler Notifications  
+- **Trigger**: Explicit notifications (permission requests, etc.)
+- **Content**: Original message with project context
+- **Action**: Click to return to your IDE/terminal
+
+## 🔒 Security & Privacy
+
+- Scripts run with your user permissions only
+- No sensitive data is transmitted or stored
+- Only reads system process information
+- All operations are local to your machine
+
+## 🐛 Troubleshooting
+
+### Notifications Not Appearing
+1. Check terminal-notifier permissions in System Settings → Notifications
+2. Verify scripts are executable: `ls -la ~/.claude-notifications/`
+3. Check logs: `tail ~/.claude-notifications/debug.log`
+
+### Click-to-Focus Not Working
+1. Verify bundle IDs: `osascript -e 'id of app "YourApp"'`
+2. Test manually: `terminal-notifier -activate "bundle.id" -message "test"`
+3. Check app is running when notification appears
+
+### Dependencies Missing
+```bash
+# Install jq
 brew install jq
 
-# Install terminal-notifier for enhanced notifications with click handling
+# Install terminal-notifier  
 brew install terminal-notifier
 ```
 
-## Scripts
+## 💡 Tips & Tricks
 
-### `detect-originating-app.sh`
-Core utility that walks up the process tree to identify the application that launched Claude Code. Recognizes common IDEs (IntelliJ, Cursor, VS Code, etc.), terminals (Ghostty, iTerm, Terminal), and other development tools by examining process names in the parent hierarchy.
+- **Multi-Project Workflow**: Works seamlessly across different projects
+- **IDE Integration**: Launch Claude from your IDE for best experience  
+- **Terminal Sessions**: Perfect for long-running terminal operations
+- **Focus Flow**: Switch apps freely - notifications appear when needed
 
-### `get-bundle-id.sh`
-Maps application names to their macOS bundle identifiers, enabling the click-to-focus functionality. Contains bundle IDs for popular development applications like `com.jetbrains.intellij`, `com.todesktop.230313mzl4w4u92` (Cursor), `com.mitchellh.ghostty`, etc.
+## 🤝 Contributing
 
-### `notify-completion.sh`
-Hook for the `Stop` event that triggers when Claude Code finishes a conversation. Extracts project context from transcript paths, detects the currently focused app, and sends enhanced notifications with click-to-focus functionality using `terminal-notifier`.
+Found a bug or want to add support for a new application? Contributions welcome!
 
-### `notify-handler.sh`
-Hook for the `Notification` event that handles explicit notifications from Claude Code (like permission requests). Provides enhanced formatting, project context, and click-to-focus functionality for immediate notifications.
+1. Fork the repository
+2. Add your changes to the appropriate script in `common.sh`
+3. Test thoroughly with your target application
+4. Submit a pull request with clear description
 
-## How It Works
+## 📄 Requirements
 
-1. **Process Detection**: Scripts walk up the process tree to find the originating application
-2. **Focus Detection**: Uses AppleScript to determine the currently focused application  
-3. **Smart Notifications**: Only shows notifications when you've switched away from the originating app
-4. **Click-to-Focus**: Click any notification to instantly return to the originating application
-5. **Project Context**: Extracts project names from Claude Code transcript paths for better context
-6. **Enhanced UI**: Beautiful notifications with titles, subtitles, and proper formatting
+- **macOS** (uses AppleScript for app detection)
+- **jq** (JSON processing)
+- **terminal-notifier** (enhanced notifications)
+- **Claude Code** with hooks enabled
 
-## Features
+---
 
-- 🎯 **Click-to-Focus**: Click notifications to instantly return to the originating application
-- 🧠 **Context-aware**: Shows project name and source application in every notification
-- 🔍 **App-specific detection**: Intelligently detects IDEs, terminals, and other applications
-- 👀 **Focus-aware**: Only notifies when you've switched away from your work
-- 🎨 **Enhanced UI**: Beautiful formatting with titles, subtitles, and proper grouping
-- 🔊 **Smart sounds**: Audio feedback with Do Not Disturb bypass for important notifications
-- 📊 **Comprehensive logging**: Detailed debug information for troubleshooting
-- ⚡ **Instant switching**: Seamless workflow integration across multiple applications
-- 🔄 **Real-time detection**: Monitors focus changes and process hierarchy in real-time
+<div align="center">
 
-**Supported Applications:**
-- IDEs: IntelliJ IDEA, Cursor, VS Code, WebStorm, PHPStorm, PyCharm, Sublime Text
-- Terminals: Terminal, iTerm, Ghostty, Alacritty
+**Transform your Claude Code experience today! 🚀**
 
-## Debugging
+*Made with ❤️ for productive developers*
 
-Check the log file for troubleshooting:
-```bash
-tail -f ~/scripts/claude-hooks-debug.log
-```
-
-## Customization
-
-### Adding New Applications
-1. **Add process detection**: Edit the case statement in `detect-originating-app.sh` to recognize new applications
-2. **Add bundle ID mapping**: Update the `get-bundle-id.sh` script with the application's bundle identifier
-3. **Test click-to-focus**: Verify the bundle ID works with `terminal-notifier -activate "bundle.id"`
-
-### Changing Notification Behavior
-Modify the notification logic in `notify-completion.sh` and `notify-handler.sh` to customize:
-- When notifications appear (focus detection logic)
-- Message formatting and content
-- Sound selection and timing
-
-### Custom Sounds
-Change the `-sound "Hero"` parameter in the terminal-notifier commands to use different notification sounds like:
-- `"Glass"`, `"Ping"`, `"Pop"`, `"Purr"`, `"Sosumi"`, `"Submarine"`, `"Blow"`
-- `"default"` for system default
-- Custom sound files (place in `~/Library/Sounds/`)
-
-## Requirements
-
-- macOS (uses AppleScript for app detection)
-- jq (JSON processing)
-- terminal-notifier (enhanced notifications with click handling)
-- Claude Code with hooks enabled
-
-## Security Note
-
-These scripts run with your user permissions as part of Claude Code hooks. They only read system information and show notifications - no sensitive operations are performed.
+</div>
