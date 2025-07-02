@@ -158,6 +158,8 @@ The logs show detailed information about:
 - Notification commands and outputs
 - Success/skip decisions
 
+**Auto Log Rotation**: The log file automatically rotates when it reaches 10,000 lines, keeping only the most recent 5,000 lines to prevent unlimited growth.
+
 ## ⚙️ Customization
 
 ### Adding New Applications

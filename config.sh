@@ -7,27 +7,33 @@
 CLAUDE_NOTIFICATIONS_DIR="${CLAUDE_NOTIFICATIONS_DIR:-$HOME/.claude-notifications}"
 
 # Log file location
-LOG_FILE="$CLAUDE_NOTIFICATIONS_DIR/debug.log"
+CLAUDE_NOTIFICATIONS_LOG_FILE="$CLAUDE_NOTIFICATIONS_DIR/debug.log"
+
+# Log rotation settings
+CLAUDE_NOTIFICATIONS_MAX_LOG_LINES=10000  # Maximum lines before rotation
+CLAUDE_NOTIFICATIONS_KEEP_LOG_LINES=5000  # Lines to keep after rotation
 
 # Claude settings file
-CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+CLAUDE_NOTIFICATIONS_SETTINGS_FILE="$HOME/.claude/settings.json"
 
 # Terminal notifier path (try common locations)
 if command -v terminal-notifier &> /dev/null; then
-    TERMINAL_NOTIFIER_PATH=$(which terminal-notifier)
+    CLAUDE_NOTIFICATIONS_TERMINAL_NOTIFIER_PATH=$(which terminal-notifier)
 elif [[ -f "/opt/homebrew/bin/terminal-notifier" ]]; then
-    TERMINAL_NOTIFIER_PATH="/opt/homebrew/bin/terminal-notifier"
+    CLAUDE_NOTIFICATIONS_TERMINAL_NOTIFIER_PATH="/opt/homebrew/bin/terminal-notifier"
 elif [[ -f "/usr/local/bin/terminal-notifier" ]]; then
-    TERMINAL_NOTIFIER_PATH="/usr/local/bin/terminal-notifier"
+    CLAUDE_NOTIFICATIONS_TERMINAL_NOTIFIER_PATH="/usr/local/bin/terminal-notifier"
 else
-    TERMINAL_NOTIFIER_PATH="terminal-notifier"
+    CLAUDE_NOTIFICATIONS_TERMINAL_NOTIFIER_PATH="terminal-notifier"
 fi
 
 # Export configuration variables
 export CLAUDE_NOTIFICATIONS_DIR
-export LOG_FILE
-export CLAUDE_SETTINGS
-export TERMINAL_NOTIFIER_PATH
+export CLAUDE_NOTIFICATIONS_LOG_FILE
+export CLAUDE_NOTIFICATIONS_MAX_LOG_LINES
+export CLAUDE_NOTIFICATIONS_KEEP_LOG_LINES
+export CLAUDE_NOTIFICATIONS_SETTINGS_FILE
+export CLAUDE_NOTIFICATIONS_TERMINAL_NOTIFIER_PATH
 
 # Function to get script directory (where this config.sh is located)
 get_script_dir() {

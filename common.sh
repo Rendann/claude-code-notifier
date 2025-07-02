@@ -7,13 +7,33 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/config.sh"
 
-# Function to log messages with timestamp
+
+# Function to log messages with timestamp and auto-rotation
 log_message() {
     local level="$1"
     shift
-    echo "=== $level $(date) ===" >> "$LOG_FILE"
-    echo "$@" >> "$LOG_FILE"
-    echo "" >> "$LOG_FILE"
+    
+    # Check if log rotation is needed before writing
+    if [[ -f "$CLAUDE_NOTIFICATIONS_LOG_FILE" ]]; then
+        local line_count=$(wc -l < "$CLAUDE_NOTIFICATIONS_LOG_FILE" 2>/dev/null || echo 0)
+        if [[ $line_count -gt $CLAUDE_NOTIFICATIONS_MAX_LOG_LINES ]]; then
+            # Rotate: keep only the last KEEP_LOG_LINES lines
+            tail -n "$CLAUDE_NOTIFICATIONS_KEEP_LOG_LINES" "$CLAUDE_NOTIFICATIONS_LOG_FILE" > "$CLAUDE_NOTIFICATIONS_LOG_FILE.tmp" 2>/dev/null && \
+            mv "$CLAUDE_NOTIFICATIONS_LOG_FILE.tmp" "$CLAUDE_NOTIFICATIONS_LOG_FILE" 2>/dev/null
+            
+            # Add rotation marker
+            {
+                echo "=== LOG ROTATED $(date) ==="
+                echo "Trimmed log from $line_count to $CLAUDE_NOTIFICATIONS_KEEP_LOG_LINES lines"
+                echo ""
+            } >> "$CLAUDE_NOTIFICATIONS_LOG_FILE"
+        fi
+    fi
+    
+    # Write the actual log message
+    echo "=== $level $(date) ===" >> "$CLAUDE_NOTIFICATIONS_LOG_FILE"
+    echo "$@" >> "$CLAUDE_NOTIFICATIONS_LOG_FILE"
+    echo "" >> "$CLAUDE_NOTIFICATIONS_LOG_FILE"
 }
 
 # Function to detect the originating application by walking up process tree
@@ -101,7 +121,7 @@ send_notification() {
     local group_prefix="$5"
     
     local group_id="${group_prefix}-$(date +%s)"
-    local cmd="\"$TERMINAL_NOTIFIER_PATH\" -group \"$group_id\" -title \"$title\" -subtitle \"$subtitle\" -message \"$message\" -sound \"Hero\" -ignoreDnD"
+    local cmd="\"$CLAUDE_NOTIFICATIONS_TERMINAL_NOTIFIER_PATH\" -group \"$group_id\" -title \"$title\" -subtitle \"$subtitle\" -message \"$message\" -sound \"Hero\" -ignoreDnD"
     
     if [[ -n "$bundle_id" ]]; then
         cmd="$cmd -activate \"$bundle_id\""
