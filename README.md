@@ -29,10 +29,10 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/naveenb1/claude-code-notifications.git
+git clone https://github.com/Naveenxyz/claude-code-notifier.git
 
 # Run the installer (it will automatically setup in ~/.claude-notifications)
-cd claude-code-notifications
+cd claude-code-notifier
 ./install.sh
 ```
 
@@ -40,8 +40,8 @@ cd claude-code-notifications
 
 ```bash
 # Clone the repository
-git clone https://github.com/naveenb1/claude-code-notifications.git
-cd claude-code-notifications
+git clone https://github.com/Naveenxyz/claude-code-notifier.git
+cd claude-code-notifier
 
 # Install to custom directory
 CLAUDE_NOTIFICATIONS_DIR="~/my-custom-path" ./install.sh
@@ -53,12 +53,12 @@ CLAUDE_NOTIFICATIONS_DIR="~/my-custom-path" ./install.sh
 # Create temporary directory
 mkdir -p /tmp/claude-notifications && cd /tmp/claude-notifications
 
-# Download the scripts (replace with actual URLs)
-curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/config.sh
-curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/common.sh
-curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/notify-completion.sh
-curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/notify-handler.sh
-curl -O https://raw.githubusercontent.com/naveenb1/claude-code-notifications/main/install.sh
+# Download the scripts
+curl -O https://raw.githubusercontent.com/Naveenxyz/claude-code-notifier/main/config.sh
+curl -O https://raw.githubusercontent.com/Naveenxyz/claude-code-notifier/main/common.sh
+curl -O https://raw.githubusercontent.com/Naveenxyz/claude-code-notifier/main/notify-completion.sh
+curl -O https://raw.githubusercontent.com/Naveenxyz/claude-code-notifier/main/notify-handler.sh
+curl -O https://raw.githubusercontent.com/Naveenxyz/claude-code-notifier/main/install.sh
 
 # Run the installer
 ./install.sh
