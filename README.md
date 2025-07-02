@@ -8,7 +8,8 @@
 [![Terminal](https://img.shields.io/badge/Terminal-4D4D4D?style=flat&logo=gnometerminal&logoColor=white)](https://support.apple.com/guide/terminal/)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-FF6B35?style=flat)](https://docs.anthropic.com/en/docs/claude-code)
 
-![Demo Notifications](https://github.com/user-attachments/assets/c5e98d8d-75b1-4ece-80e7-f9a259cdc9dd)
+![Demo Notifications](https://github.com/user-attachments/assets/f2491fe5-93e3-4793-a5c0-f422002d0218)
+
 
 *Beautiful, context-aware notifications with click-to-focus functionality*
 
