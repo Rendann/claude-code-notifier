@@ -10,7 +10,7 @@ Smart, click-to-focus notification system for Claude Code that delivers context-
 
 This enhanced notification system transforms Claude Code into a fully integrated development tool using the [hooks feature](https://docs.anthropic.com/en/docs/claude-code/hooks). The system intelligently detects your workflow context and delivers beautiful, actionable notifications that you can click to instantly return to your work.
 
-## ✨ What's New in v2.0
+## ✨ Features
 
 - **🎯 Click-to-Focus**: Click any notification to instantly activate the originating application
 - **🎨 Enhanced UI**: Beautiful notifications with proper titles, subtitles, and formatting  
