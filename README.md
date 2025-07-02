@@ -1,4 +1,7 @@
 # Claude Code Enhanced Notification System
+<img width="351" alt="image" src="https://github.com/user-attachments/assets/c5e98d8d-75b1-4ece-80e7-f9a259cdc9dd" />
+<img width="351" alt="image" src="https://github.com/user-attachments/assets/292c8c08-186f-432b-9c19-53b9e784d8dd" />
+
 
 Smart, click-to-focus notification system for Claude Code that delivers context-aware notifications with seamless app switching functionality.
 
