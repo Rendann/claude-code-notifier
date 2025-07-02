@@ -1,5 +1,6 @@
 # Claude Code Enhanced Notification System
 <img width="351" alt="image" src="https://github.com/user-attachments/assets/c5e98d8d-75b1-4ece-80e7-f9a259cdc9dd" />
+<img width="351" alt="image" src="https://github.com/user-attachments/assets/5073f30d-5817-47b4-9585-8982bd518edf" />
 <img width="351" alt="image" src="https://github.com/user-attachments/assets/292c8c08-186f-432b-9c19-53b9e784d8dd" />
 
 
