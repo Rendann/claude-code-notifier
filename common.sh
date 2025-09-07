@@ -46,7 +46,7 @@ detect_originating_app() {
         case "$process_name" in
             *"idea"*|*"IntelliJ"*) echo "idea"; return ;;
             *"Cursor"*) echo "cursor"; return ;;
-            *"code"*) echo "vscode"; return ;;
+            *"code"*|*"Code"*) echo "vscode"; return ;;
             *"WebStorm"*) echo "webstorm"; return ;;
             *"PHPStorm"*) echo "phpstorm"; return ;;
             *"PyCharm"*) echo "pycharm"; return ;;
@@ -86,15 +86,17 @@ get_bundle_id() {
 
 # Function to get currently focused application
 get_focused_app() {
-    local focused_app_full=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true')
+    local app_name=$(lsappinfo list | grep ": (in front)" | sed 's/.*"\([^"]*\)".*/\1/')
+    [[ -z "$app_name" ]] && { echo "unknown"; return; }
     
-    case "$focused_app_full" in
+    case "$app_name" in
         "IntelliJ IDEA") echo "idea" ;;
-        "iTerm2") echo "iterm" ;;
-        "iTerm") echo "iterm" ;;
-        "Ghostty") echo "ghostty" ;;
+        "iTerm2"|"iTerm") echo "iterm" ;;
+        "Visual Studio Code"|"Code") echo "vscode" ;;
         "Cursor") echo "cursor" ;;
-        *) echo "$focused_app_full" | tr '[:upper:]' '[:lower:]' ;;
+        "Ghostty") echo "ghostty" ;;
+        "Terminal") echo "terminal" ;;
+        *) echo "$app_name" | tr '[:upper:]' '[:lower:]' ;;
     esac
 }
 
@@ -139,13 +141,25 @@ send_notification() {
     fi
 }
 
+# Function to check what app is "in front"
+is_app_in_front() {
+    local app_name="$1"
+    
+    case "$app_name" in
+        "iterm"|"iTerm2") lsappinfo list | grep -q '"iTerm2".*: (in front)' ;;
+        "terminal"|"Terminal") lsappinfo list | grep -q '"Terminal".*: (in front)' ;;
+        "vscode") lsappinfo list | grep -Eq '"(Code|Visual Studio Code)".*: \(in front\)' ;;
+        "cursor") lsappinfo list | grep -q '"Cursor".*: (in front)' ;;
+        "idea") lsappinfo list | grep -q '"IntelliJ IDEA".*: (in front)' ;;
+        *) return 1 ;;  # Unknown apps default to "not in front"
+    esac
+}
+
 # Function to check if notification should be sent
 should_notify() {
     local originating_app="$1"
-    local focused_app="$2"
-    
-    [[ "$originating_app" != "$focused_app" ]]
+    ! is_app_in_front "$originating_app"
 }
 
 # Export all functions
-export -f log_message detect_originating_app get_bundle_id get_focused_app extract_project_name send_notification should_notify
+export -f log_message detect_originating_app get_bundle_id get_focused_app extract_project_name send_notification should_notify is_app_in_front
