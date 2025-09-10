@@ -10,8 +10,8 @@ CLAUDE_NOTIFICATIONS_DIR="${CLAUDE_NOTIFICATIONS_DIR:-$HOME/.claude-notification
 CLAUDE_NOTIFICATIONS_LOG_FILE="$CLAUDE_NOTIFICATIONS_DIR/debug.log"
 
 # Log rotation settings
-CLAUDE_NOTIFICATIONS_MAX_LOG_LINES=10000  # Maximum lines before rotation
-CLAUDE_NOTIFICATIONS_KEEP_LOG_LINES=5000  # Lines to keep after rotation
+CLAUDE_NOTIFICATIONS_MAX_LOG_LINES=2500  # Maximum lines before rotation
+CLAUDE_NOTIFICATIONS_KEEP_LOG_LINES=1500  # Lines to keep after rotation
 
 # Claude settings file
 CLAUDE_NOTIFICATIONS_SETTINGS_FILE="$HOME/.claude/settings.json"
