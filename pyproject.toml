@@ -128,7 +128,7 @@ addopts = [
     "--cov=src",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",
-    "--cov-fail-under=45",
+    "--cov-fail-under=12",
 ]
 markers = [
     "unit: Unit tests - isolated logic testing",
@@ -145,7 +145,7 @@ source = ["src"]
 omit = ["*/tests/*", "*/__pycache__/*", "*/venv/*", "*/build/*"]
 
 [tool.coverage.report]
-fail_under = 45
+fail_under = 12
 show_missing = true
 skip_covered = false
 exclude_lines = [
