@@ -1,0 +1,165 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-code-notifier"
+version = "0.1.0"
+description = "macOS notification system for Claude Code with smart click-to-focus"
+authors = [{ name = "Trent McNitt", email = "tread_acct@pm.me" }]
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: MacOS",
+]
+
+dependencies = [
+    "psutil>=5.9.0",
+    "pyobjc-framework-Cocoa>=9.0",
+    "pyobjc-framework-Quartz>=9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0",
+]
+
+# [project.scripts]
+# Scripts will be added later
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+
+# ============================================================================
+# RUFF CONFIGURATION
+# ============================================================================
+[tool.ruff]
+include = [
+    "src/**/*.py",
+    "tests/**/*.py",
+]
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "backups",
+    "legacy",
+]
+line-length = 88
+target-version = "py39"
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "RUF", # Ruff-specific rules
+    "SIM", # flake8-simplify
+    "RET", # flake8-return
+    "ARG", # flake8-unused-arguments
+    "C4",  # flake8-comprehensions
+    "C90", # mccabe complexity
+]
+
+ignore = [
+    "E501",   # Line too long (handled by formatter)
+    "ISC001", # Conflicts with formatter
+    "COM812", # Conflicts with formatter
+]
+
+fixable = ["ALL"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+"tests/**/*.py" = ["S101", "D", "ANN", "ARG001"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
+exclude = ["venv/", "build/", "dist/"]
+files = ["src/", "tests/"]
+namespace_packages = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-fail-under=45",
+]
+markers = [
+    "unit: Unit tests - isolated logic testing",
+    "integration: Integration tests - real filesystem operations",
+    "e2e: End-to-end tests - full CLI command testing",
+    "safety: Safety-critical tests - data protection and process safety",
+    "flags: CLI flags testing - command line flag combinations and behaviors",
+    "performance: Performance tests - execution time and resource usage validation",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/__pycache__/*", "*/venv/*", "*/build/*"]
+
+[tool.coverage.report]
+fail_under = 45
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
