@@ -129,13 +129,27 @@ If you prefer manual setup, add this to your `~/.claude/settings.json`:
 - **`notify-handler.sh`** - Handles explicit notifications (permissions, etc.)
 - **`install.sh`** - Automated setup and configuration
 
+### Cross-Space Window Focusing (Python/Hammerspoon Solution)
+
+🎉 **BREAKTHROUGH**: We've developed an advanced Python + Hammerspoon solution that enables **true cross-space window focusing** on macOS - something that was previously impossible with AppleScript alone.
+
+**Key Innovation:**
+- Uses Hammerspoon's `hs.window.filter` with `setCurrentSpace(false)` workaround
+- Can detect and focus windows across different macOS Spaces without Mission Control animation  
+- Solves the fundamental limitation where AppleScript cannot see cross-space windows
+
+**Related Issue:** [Hammerspoon #3276 - window.filter cross-space bug](https://github.com/Hammerspoon/hammerspoon/issues/3276)
+
+This solution is preserved in the `feature/window-focusing-solution` branch and represents a major breakthrough after testing 50+ different approaches documented in `APPROACHES.md`.
+
 ### How It Works
 
 1. **Process Detection**: Walks up the process tree to identify the originating application
 2. **Focus Monitoring**: Uses AppleScript to detect the currently focused app
-3. **Smart Logic**: Only sends notifications when you've switched away from your work
-4. **Enhanced Delivery**: Uses `terminal-notifier` for professional notifications
-5. **Click Handling**: Bundle IDs enable click-to-focus functionality
+3. **Cross-Space Detection**: Hammerspoon's window.filter finds windows across all Spaces
+4. **Smart Logic**: Only sends notifications when you've switched away from your work
+5. **Enhanced Delivery**: Uses `terminal-notifier` for professional notifications
+6. **Cross-Space Focusing**: Direct window.focus() cleanly switches spaces and activates windows
 
 ## 📱 Supported Applications
 
